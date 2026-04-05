@@ -204,7 +204,7 @@
             <article class="gallery-card" data-reveal data-delay="3">
               <img src="assets/figures/main/figure-3.png" alt="Figure 3">
               <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 3</div>
-              <p class="gallery-caption">Temporal calibration and clinical utility for the selected model and the clinicopathologic baseline. Panel A shows the temporal calibration relationship between predicted 5-year risk and observed 5-year event rate for the selected calibrated model and the clinicopathologic baseline, together with the ideal line. Panel B shows temporal decision-curve analysis for the same two models, with treat-all and treat-none strategies included to define the clinical utility range. The broader all-model calibration and decision-curve comparisons are intentionally reported in eFigure 1 and eFigure 2 to preserve main-text clarity.</p>
+              <p class="gallery-caption">Temporal calibration and decision-curve analysis for the selected deployment model. Panel A shows the temporal calibration relationship between predicted 5-year risk and observed 5-year event rate for the selected calibrated CatBoost model, together with the ideal line. Panel B shows temporal decision-curve analysis for the same model with treat-all and treat-none strategies. The clinicopathologic baseline benchmark is retained in Table 3 and in eFigure 1-2 because its temporal calibration and net-benefit traces showed minimal visual separation in the main-panel range.</p>
             </article>
             
             <article class="gallery-card" data-reveal data-delay="4">
@@ -217,6 +217,12 @@
               <img src="assets/figures/main/figure-5.png" alt="Figure 5">
               <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 5</div>
               <p class="gallery-caption">SHAP summary of the selected deployment model. Panel A shows the global SHAP ranking by mean absolute SHAP value. Panel B shows a SHAP beeswarm summary, with each point representing a patient-level SHAP contribution for one aggregated feature.</p>
+            </article>
+            
+            <article class="gallery-card" data-reveal data-delay="1">
+              <img src="assets/figures/main/figure-6.png" alt="Figure 6">
+              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 6</div>
+              <p class="gallery-caption">Public static manuscript showcase and deployment preview. The figure shows the web-facing translation surface used to present the locked manuscript figures, risk-group thresholds, and downloadable study materials. The public static URL is https://breast-thyroid-spc-risk-site.onrender.com.</p>
             </article>
             </div>
       <div class="gallery-grid" data-gallery-panel="supplementary" hidden>
@@ -241,7 +247,7 @@
             <article class="gallery-card" data-reveal data-delay="4">
               <img src="assets/figures/supplementary/efigure-4.png" alt="eFigure 4">
               <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 4</div>
-              <p class="gallery-caption">R-based Pearson correlation heatmap derived from the encoded candidate-feature matrix used for structure review before LASSO screening.</p>
+              <p class="gallery-caption">R-based Pearson correlation heatmap of the retained clinicopathologic feature matrix used for post-screening collinearity review. The panel is intended to show correlation structure rather than to justify arbitrary pre-model feature removal.</p>
             </article>
             
             <article class="gallery-card" data-reveal data-delay="5">
