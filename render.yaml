@@ -2,6 +2,5 @@ services:
   - type: web
     name: breast-thyroid-spc-risk-site
     runtime: static
-    plan: free
     staticPublishPath: .
     pullRequestPreviewsEnabled: false
