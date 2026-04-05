@@ -1,0 +1,4 @@
+﻿Risk group,Probability range,Temporal cohort n,Temporal events,Mean predicted 5-year risk (%),Observed 5-year event rate (%),Clinical interpretation
+Low risk,< 0.0022,"21,715",49,0.18,0.23,Lowest observed event rate after applying the primary Youden-based operating rule.
+Intermediate risk,0.0022 to < 0.0028,"34,190",82,0.25,0.24,Intermediate event burden between the low- and high-risk strata.
+High risk,>= 0.0028,"49,248",235,0.36,0.48,Highest observed event rate and the principal high-risk surveillance stratum.
