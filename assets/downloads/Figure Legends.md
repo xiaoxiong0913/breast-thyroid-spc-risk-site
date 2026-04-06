@@ -13,7 +13,7 @@ Temporal calibration and decision-curve analysis for the selected deployment mod
 Youden-anchored temporal risk-group presentation. Panel A shows mean predicted 5-year risk across low-, intermediate-, and high-risk groups defined by probability bands of <0.0022, 0.0022 to <0.0028, and >=0.0028. Panel B shows the corresponding observed 5-year event rates with event counts.
 
 ## Figure 5
-SHAP summary of the selected deployment model. Panel A shows the global SHAP ranking by mean absolute SHAP value. Panel B shows a SHAP beeswarm summary, with each point representing a patient-level SHAP contribution for one aggregated feature.
+R-based collinearity review and SHAP summary of the selected deployment model. Panel A shows a clustered R-based correlogram of the retained clinicopathologic features using the encoded matrix preserved for collinearity review. Panel B shows the global SHAP ranking by mean absolute SHAP value. Panel C shows a SHAP beeswarm summary, with each point representing a patient-level SHAP contribution for one aggregated feature.
 
 ## Figure 6
 Public static manuscript showcase and deployment preview. The figure shows the web-facing translation surface used to present the locked manuscript figures, risk-group thresholds, and downloadable study materials. The public static URL is https://breast-thyroid-spc-risk-site.onrender.com.
@@ -30,7 +30,7 @@ All-model temporal decision-curve analysis. Panel A shows the six machine-learni
 Temporal precision-recall detail. Panel A preserves the full 0-1 precision scale, whereas Panel B zooms into the low-precision range that contains the dominant signal for this low-incidence endpoint.
 
 ## eFigure 4
-R-based Pearson correlation heatmap of the retained clinicopathologic feature matrix used for post-screening collinearity review. The panel is intended to show correlation structure rather than to justify arbitrary pre-model feature removal.
+Standalone R-based clustered collinearity panel of the retained clinicopathologic feature matrix used for post-screening review. Lower-triangle bubbles summarize the magnitude and direction of Pearson correlations from the encoded matrix, whereas the upper triangle reports the corresponding coefficients.
 
 ## eFigure 5
 LASSO coefficient path for the leading candidate predictors across the regularization range.

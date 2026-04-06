@@ -1,18 +1,10 @@
-# Breast-to-Thyroid SPC Web Showcase
+# Web Calculator Use
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/xiaoxiong0913/breast-thyroid-spc-risk-site)
+This project now includes a public static manuscript-facing deployment plus mirrored local review bundles.
 
-This repository contains the public static-site bundle for the breast-to-thyroid second-primary-thyroid-cancer manuscript showcase.
+1. Open `https://breast-thyroid-spc-risk-site.onrender.com` for the public static site.
+2. Open `E:\Codex\projects\breast_thyroid_spc_rebuild_20260403_0914\论文Web展示\index.html` for the root local manuscript-facing gallery view.
+3. Open `index.html` in `output/web_public_bundle/` for the workspace local review bundle.
+4. Use `web_full.png` as the locked preview screenshot for submission-side supplementary materials.
 
-What it includes:
-
-- repaired manuscript figure gallery
-- temporal validation highlights
-- locked risk-group presentation
-- downloadable manuscript-side files and tables
-
-Scope note:
-
-- This is a public manuscript-facing static site.
-- It is not a live bedside prediction API.
-- The locked truth package did not include a publishable locked runtime bundle, so public wording should remain “web showcase” rather than “interactive deployed calculator”.
+The public deployment is a static showcase and should not be described as an interactive risk calculator or prediction API.
