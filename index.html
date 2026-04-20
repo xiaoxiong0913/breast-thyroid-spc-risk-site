@@ -1,348 +1,115 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prediction of metachronous second primary thyroid cancer among breast cancer survivors</title>
-  <link rel="stylesheet" href="assets/site.css">
+  <title>Breast-to-thyroid second primary thyroid cancer risk calculator</title>
+  <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
   <main class="shell">
     <section class="hero">
-      <article class="hero-main card" data-reveal data-delay="1">
-        <div class="eyebrow">Breast-to-thyroid SPC manuscript web bundle</div>
-        <h1>Prediction of metachronous second primary thyroid cancer among breast cancer survivors</h1>
-        <p class="lede">This manuscript-facing web bundle summarizes the locked SEER second-primary-thyroid-cancer study, preserving the repaired figure set, temporal validation metrics, locked risk-group presentation, and the calculator preview evidence in a public static Render deployment plus mirrored local review bundles.</p>
+      <article class="hero-main card">
+        <div class="eyebrow">SEER-based breast-to-thyroid SPC model</div>
+        <h1>5-year second primary thyroid cancer risk calculator</h1>
+        <p class="lede">
+          Enter the same clinicopathologic fields used by the locked CatBoost runtime bundle.
+          The calculator returns the calibrated 5-year probability and the locked risk group
+          for metachronous second primary thyroid cancer after breast cancer.
+        </p>
         <div class="hero-points">
-          <div class="hero-point"><strong>Locked final model</strong><br>CatBoost retained after challenger adjudication.</div>
-          <div class="hero-point"><strong>Temporal framing</strong><br>SEER 2010-2014 development and 2015-2017 temporal validation.</div>
-          <div class="hero-point"><strong>Web status</strong><br>Render public static site live; local review bundle mirrored for audit.</div>
+          <div class="hero-point"><strong>Endpoint</strong><br>Second primary thyroid cancer from month 7 through month 66.</div>
+          <div class="hero-point"><strong>Model</strong><br>CatBoost with saved preprocessing and Platt calibration.</div>
+          <div class="hero-point"><strong>Risk groups</strong><br>Low &lt;0.22%, intermediate 0.22% to &lt;0.28%, high >=0.28%.</div>
         </div>
       </article>
-      <aside class="hero-side card" data-reveal data-delay="2">
-        <div class="status-flag">Public static site live</div>
-        <p class="lede" style="font-size:16px;">Render public static site live; local review bundles remain mirrored for submission-side audit.</p>
-        <p class="metric-detail"><strong>Public deployment:</strong><br><a href="https://breast-thyroid-spc-risk-site.onrender.com">https://breast-thyroid-spc-risk-site.onrender.com</a></p>
-        <p class="metric-detail"><strong>Primary local bundle:</strong><br><a href="../web_public_bundle/index.html">../web_public_bundle/index.html</a></p>
-        <p class="metric-detail"><strong>Paper showcase:</strong><br><a href="index.html">index.html</a></p>
-        <p class="metric-detail">Static manuscript-facing web delivery with locked truth figures, temporal metrics, and calculator preview evidence. This is a public static showcase, not a prediction API.</p>
+      <aside class="hero-side card">
+        <div class="status-flag">Calculator live</div>
+        <p class="metric-detail"><strong>Public URL:</strong><br><a href="https://breast-thyroid-spc-risk-site.onrender.com">https://breast-thyroid-spc-risk-site.onrender.com</a></p>
+        <p class="metric-detail">Use within the SEER-derived study context and interpret together with clinical judgment.</p>
       </aside>
     </section>
+
+    <section class="section card calculator-section">
+      <div class="section-heading">
+        <div>
+          <h2>Risk Calculator</h2>
+          <p class="section-note">Fields can be entered from a SEER-style case record. Missing fields use the saved preprocessing rules.</p>
+        </div>
+        <button id="loadExample" class="ghost-button" type="button">Load example</button>
+      </div>
+      <form id="riskForm" class="form-grid" autocomplete="off"></form>
+      <div class="actions">
+        <button id="predictButton" class="primary-button" type="submit" form="riskForm">Calculate risk</button>
+        <button id="resetButton" class="ghost-button" type="button">Reset</button>
+      </div>
+      <div id="resultPanel" class="result-panel" hidden>
+        <div class="result-card">
+          <span class="metric-label">Predicted 5-year risk</span>
+          <strong id="riskPercent">--</strong>
+          <span id="riskPer1000">--</span>
+        </div>
+        <div class="result-card">
+          <span class="metric-label">Risk group</span>
+          <strong id="riskGroup">--</strong>
+          <span id="riskDefinition">--</span>
+        </div>
+        <div class="result-card wide">
+          <span class="metric-label">Endpoint</span>
+          <span id="endpointText">--</span>
+        </div>
+      </div>
+      <div id="errorPanel" class="error-panel" hidden></div>
+    </section>
+
     <section class="section card">
-      <h2>Key Metrics</h2>
-      <p class="section-note">These headline cards are aligned to the locked truth package and the temporal validation framing used in the manuscript.</p>
+      <h2>Study Summary</h2>
       <div class="metrics">
-        <article class="metric-card" data-reveal data-delay="1">
+        <article class="metric-card">
           <div class="metric-label">Final model</div>
           <div class="metric-value">CatBoost</div>
-          <p class="metric-detail">14 retained predictors</p>
+          <p>Saved preprocessing, CatBoost raw margin, and Platt calibration are applied at runtime.</p>
         </article>
-        
-        <article class="metric-card" data-reveal data-delay="2">
-          <div class="metric-label">Temporal AUROC</div>
-          <div class="metric-value">0.609 [0.586, 0.636]</div>
-          <p class="metric-detail">Locked truth temporal discrimination</p>
-        </article>
-        
-        <article class="metric-card" data-reveal data-delay="3">
-          <div class="metric-label">Temporal AUPRC</div>
-          <div class="metric-value">0.006 [0.005, 0.007]</div>
-          <p class="metric-detail">Very-low-incidence precision-recall framing</p>
-        </article>
-        
-        <article class="metric-card" data-reveal data-delay="4">
+        <article class="metric-card">
           <div class="metric-label">Primary threshold</div>
-          <div class="metric-value">0.0028</div>
-          <p class="metric-detail">Locked Youden operating point</p>
+          <div class="metric-value">0.28%</div>
+          <p>Predicted 5-year risk >=0.28% defines the high-risk group in the locked presentation.</p>
         </article>
-        </div>
-    </section>
-    <section class="section card">
-      <h2>Risk Stratification</h2>
-      <p class="section-note">Risk bands are anchored to the locked Youden threshold family and mirror the repaired Figure 4 presentation.</p>
-      <div class="risk-grid">
-        <article class="risk-card" data-reveal data-delay="1">
-          <div class="metric-label">Low risk</div>
-          <div class="risk-range">&lt; 0.22%</div>
-          <p><strong>Mean predicted risk:</strong> 0.18%<br>
-          <strong>Observed event rate:</strong> 0.23%<br>
-          <strong>Temporal cohort:</strong> 21,715 patients<br>
-          <strong>Events:</strong> 49</p>
-          <p>Lowest observed event rate after applying the primary Youden-based operating rule.</p>
+        <article class="metric-card">
+          <div class="metric-label">Temporal cohort</div>
+          <div class="metric-value">105,153</div>
+          <p>The temporal-validation cohort contained 366 endpoint events.</p>
         </article>
-        
-        <article class="risk-card" data-reveal data-delay="2">
-          <div class="metric-label">Intermediate risk</div>
-          <div class="risk-range">0.22% to &lt; 0.28%</div>
-          <p><strong>Mean predicted risk:</strong> 0.25%<br>
-          <strong>Observed event rate:</strong> 0.24%<br>
-          <strong>Temporal cohort:</strong> 34,190 patients<br>
-          <strong>Events:</strong> 82</p>
-          <p>Intermediate event burden between the low- and high-risk strata.</p>
-        </article>
-        
-        <article class="risk-card" data-reveal data-delay="3">
-          <div class="metric-label">High risk</div>
-          <div class="risk-range">&gt;= 0.28%</div>
-          <p><strong>Mean predicted risk:</strong> 0.36%<br>
-          <strong>Observed event rate:</strong> 0.48%<br>
-          <strong>Temporal cohort:</strong> 49,248 patients<br>
-          <strong>Events:</strong> 235</p>
-          <p>Highest observed event rate and the principal high-risk surveillance stratum.</p>
-        </article>
-        </div>
-    </section>
-    <section class="section card">
-      <h2>Model Structure</h2>
-      <p class="section-note">The retained deployment model uses 14 clinicopathologic predictors and remains the main manuscript path after challenger review.</p>
-      <div class="predictor-grid">
-        <article class="predictor-card" data-reveal data-delay="1">
-          <div class="metric-label">Retained predictors</div>
-          <div class="chip-wrap"><span class="chip">age</span><span class="chip">race_ethnicity</span><span class="chip">laterality</span><span class="chip">grade</span><span class="chip">combined_summary_stage</span><span class="chip">breast_subtype</span><span class="chip">her2_status</span><span class="chip">tumor_size_mm</span><span class="chip">regional_nodes_examined</span><span class="chip">surgery_primary_site</span><span class="chip">radiation_recode</span><span class="chip">chemotherapy_recode</span><span class="chip">ajcc_stage_group</span><span class="chip">marital_status</span></div>
-        </article>
-        <article class="predictor-card" data-reveal data-delay="2">
-          <div class="metric-label">Comparator summary</div>
-          <table>
-            <thead><tr><th>Model</th><th>Temporal AUROC</th><th>Temporal AUPRC</th><th>Temporal Brier</th><th>Delta vs baseline</th></tr></thead>
-            <tbody>
-        <tr>
-          <td><strong>Logistic regression</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.558 [0.532, 0.590]</td>
-          <td>0.005 [0.004, 0.005]</td>
-          <td>0.003 [0.003, 0.003]</td>
-          <td>+0.000</td>
-        </tr>
-        
-        <tr>
-          <td><strong>Support vector machine</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.586 [0.559, 0.615]</td>
-          <td>0.004 [0.004, 0.005]</td>
-          <td>0.012 [0.012, 0.012]</td>
-          <td>+0.028</td>
-        </tr>
-        
-        <tr>
-          <td><strong>Random forest</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.593 [0.571, 0.620]</td>
-          <td>0.005 [0.004, 0.005]</td>
-          <td>0.226 [0.226, 0.227]</td>
-          <td>+0.035</td>
-        </tr>
-        
-        <tr>
-          <td><strong>XGBoost</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.594 [0.567, 0.623]</td>
-          <td>0.005 [0.004, 0.006]</td>
-          <td>0.003 [0.003, 0.003]</td>
-          <td>+0.036</td>
-        </tr>
-        
-        <tr>
-          <td><strong>LightGBM</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.503 [0.474, 0.533]</td>
-          <td>0.003 [0.003, 0.004]</td>
-          <td>0.004 [0.004, 0.004]</td>
-          <td>-0.054</td>
-        </tr>
-        
-        <tr>
-          <td><strong>CatBoost</strong><br><span class="mini-label">Platt</span></td>
-          <td>0.609 [0.586, 0.636]</td>
-          <td>0.006 [0.005, 0.007]</td>
-          <td>0.003 [0.003, 0.003]</td>
-          <td>+0.052</td>
-        </tr>
-        
-        <tr>
-          <td><strong>Age-only benchmark</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.576 [0.548, 0.601]</td>
-          <td>0.004 [0.004, 0.005]</td>
-          <td>0.246 [0.246, 0.247]</td>
-          <td>+0.018</td>
-        </tr>
-        
-        <tr>
-          <td><strong>AJCC/stage-only benchmark</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.495 [0.473, 0.516]</td>
-          <td>0.004 [0.003, 0.004]</td>
-          <td>0.143 [0.142, 0.144]</td>
-          <td>-0.063</td>
-        </tr>
-        
-        <tr>
-          <td><strong>Clinicopathologic baseline model</strong><br><span class="mini-label">Raw</span></td>
-          <td>0.558 [0.520, 0.584]</td>
-          <td>0.005 [0.004, 0.005]</td>
-          <td>0.226 [0.225, 0.227]</td>
-          <td>Reference</td>
-        </tr>
-        </tbody>
-          </table>
+        <article class="metric-card">
+          <div class="metric-label">High-risk observed event rate</div>
+          <div class="metric-value">0.48%</div>
+          <p>The locked high-risk group contained 49,248 women and 235 events.</p>
         </article>
       </div>
     </section>
+
     <section class="section card">
-      <h2>Figure Gallery</h2>
-      <p class="section-note">All figure panels are local web-friendly PNG renders generated from the repaired manuscript TIFF assets.</p>
-      <div class="gallery-switch">
-        <button class="active" data-gallery-target="main" type="button">Main figures</button>
-        <button data-gallery-target="supplementary" type="button">Supplementary figures</button>
-      </div>
-      <div class="gallery-grid" data-gallery-panel="main">
-            <article class="gallery-card" data-reveal data-delay="1">
-              <img src="assets/figures/main/figure-1.png" alt="Figure 1">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 1</div>
-              <p class="gallery-caption">Cohort derivation flow for the month-level SEER analysis. The diagram summarizes the main SEER case-listing source, the independent MP-SIR latency supplement, patient-level linkage by Patient ID, derivation of the first malignant breast-cancer index cohort, exclusion of patients without a reliable 66-month non-event window, and calendar-based allocation to development and temporal-validation cohorts.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="2">
-              <img src="assets/figures/main/figure-2.png" alt="Figure 2">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 2</div>
-              <p class="gallery-caption">Temporal discrimination across six machine-learning models and three benchmark comparators. Panel A shows temporal receiver operating characteristic curves for all models, with AUROC and 95% confidence intervals reported in the adjacent legend. Panel B shows temporal precision-recall curves for the same models using raw step functions. The dashed horizontal reference line marks the temporal event prevalence, which approximates the chance level for precision in this very-low-incidence setting. The precision axis is displayed from 0 to 0.006 to emphasize the clinically relevant low-prevalence range.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="3">
-              <img src="assets/figures/main/figure-3.png" alt="Figure 3">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 3</div>
-              <p class="gallery-caption">Temporal calibration and decision-curve analysis for the selected deployment model. Panel A shows temporal calibration across the locked low-, intermediate-, and high-risk bands for the selected calibrated CatBoost model, with exact 95% binomial confidence intervals, cohort-share bars, and the ideal line. Panel B shows temporal decision-curve analysis for the same model with treat-all and treat-none strategies. The clinicopathologic baseline benchmark is retained in Table 3 and in eFigure 1-2 because its temporal calibration and net-benefit traces showed minimal visual separation in the main-panel range.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="4">
-              <img src="assets/figures/main/figure-4.png" alt="Figure 4">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 4</div>
-              <p class="gallery-caption">Youden-anchored temporal risk-group presentation. Panel A shows mean predicted 5-year risk across low-, intermediate-, and high-risk groups defined by probability bands of &lt;0.0022, 0.0022 to &lt;0.0028, and &gt;=0.0028. Panel B shows the corresponding observed 5-year event rates with event counts.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="5">
-              <img src="assets/figures/main/figure-5.png" alt="Figure 5">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 5</div>
-              <p class="gallery-caption">R-based collinearity review and SHAP summary of the selected deployment model. Panel A shows a clustered R-based correlogram of the retained clinicopathologic features using the encoded matrix preserved for collinearity review. Panel B shows the global SHAP ranking by mean absolute SHAP value. Panel C shows a SHAP beeswarm summary, with each point representing a patient-level SHAP contribution for one aggregated feature.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="1">
-              <img src="assets/figures/main/figure-6.png" alt="Figure 6">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">Figure 6</div>
-              <p class="gallery-caption">Public static manuscript showcase and deployment preview. The figure shows the web-facing translation surface used to present the locked manuscript figures, risk-group thresholds, and downloadable study materials. The public static URL is https://breast-thyroid-spc-risk-site.onrender.com.</p>
-            </article>
-            </div>
-      <div class="gallery-grid" data-gallery-panel="supplementary" hidden>
-            <article class="gallery-card" data-reveal data-delay="1">
-              <img src="assets/figures/supplementary/efigure-1.png" alt="eFigure 1">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 1</div>
-              <p class="gallery-caption">All-model temporal calibration. Panel A shows the six machine-learning models, and Panel B shows the three benchmark comparators together with the selected calibrated model. These supplementary panels retain the broader model context that was intentionally removed from the main manuscript to preserve figure clarity.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="2">
-              <img src="assets/figures/supplementary/efigure-2.png" alt="eFigure 2">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 2</div>
-              <p class="gallery-caption">All-model temporal decision-curve analysis. Panel A shows the six machine-learning models, and Panel B shows the three benchmark comparators together with the selected calibrated model, the treat-all strategy, and the treat-none strategy.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="3">
-              <img src="assets/figures/supplementary/efigure-3.png" alt="eFigure 3">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 3</div>
-              <p class="gallery-caption">Temporal precision-recall detail. Panel A preserves the full 0-1 precision scale, whereas Panel B zooms into the low-precision range that contains the dominant signal for this low-incidence endpoint.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="4">
-              <img src="assets/figures/supplementary/efigure-4.png" alt="eFigure 4">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 4</div>
-              <p class="gallery-caption">Standalone R-based clustered collinearity panel of the retained clinicopathologic feature matrix used for post-screening review. Lower-triangle bubbles summarize the magnitude and direction of Pearson correlations from the encoded matrix, whereas the upper triangle reports the corresponding coefficients.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="5">
-              <img src="assets/figures/supplementary/efigure-5.png" alt="eFigure 5">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 5</div>
-              <p class="gallery-caption">LASSO coefficient path for the leading candidate predictors across the regularization range.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="1">
-              <img src="assets/figures/supplementary/efigure-6.png" alt="eFigure 6">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 6</div>
-              <p class="gallery-caption">Cross-validated LASSO performance profile used to select the screening penalty parameter.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="2">
-              <img src="assets/figures/supplementary/efigure-7.png" alt="eFigure 7">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 7</div>
-              <p class="gallery-caption">Threshold-family comparison in temporal validation, including the Youden, best-F1, high-sensitivity, high-specificity, and fixed 0.50 operating rules.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="3">
-              <img src="assets/figures/supplementary/efigure-8.png" alt="eFigure 8">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 8</div>
-              <p class="gallery-caption">Web calculator preview retained as a translation aid rather than as a main-text efficacy figure.</p>
-            </article>
-            
-            <article class="gallery-card" data-reveal data-delay="4">
-              <img src="assets/figures/supplementary/efigure-9.png" alt="eFigure 9">
-              <div class="metric-value" style="font-size:22px; margin-top:0;">eFigure 9</div>
-              <p class="gallery-caption">Cumulative absolute risk of second primary thyroid cancer across the 5-year window after the 6-month landmark in the temporal-validation cohort.</p>
-            </article>
-            </div>
-    </section>
-    <section class="section card">
-      <h2>Downloads</h2>
-      <p class="section-note">This local bundle keeps the core manuscript files and data tables close to the web-facing review surface.</p>
+      <h2>Manuscript Materials</h2>
+      <p class="section-note">Core paper files remain available for review alongside the live calculator.</p>
       <div class="download-grid">
-        <article class="download-card" data-reveal data-delay="1">
+        <article class="download-card">
           <div class="metric-label">Download</div>
-          <div class="metric-value" style="font-size:20px; margin-top:10px;">Manuscript Draft.docx</div>
-          <p>Editable manuscript draft</p>
-          <p><a href="assets/downloads/Manuscript Draft.docx" download>Open local copy</a></p>
+          <div class="metric-value">Manuscript</div>
+          <p><a href="/assets/downloads/Manuscript Draft.docx" download>Open local copy</a></p>
         </article>
-        
-        <article class="download-card" data-reveal data-delay="2">
+        <article class="download-card">
           <div class="metric-label">Download</div>
-          <div class="metric-value" style="font-size:20px; margin-top:10px;">Supplementary Appendix.docx</div>
-          <p>Supplementary appendix</p>
-          <p><a href="assets/downloads/Supplementary Appendix.docx" download>Open local copy</a></p>
+          <div class="metric-value">Supplement</div>
+          <p><a href="/assets/downloads/Supplementary Appendix.docx" download>Open local copy</a></p>
         </article>
-        
-        <article class="download-card" data-reveal data-delay="3">
+        <article class="download-card">
           <div class="metric-label">Download</div>
-          <div class="metric-value" style="font-size:20px; margin-top:10px;">Three Line Tables.docx</div>
-          <p>Submission-ready tables</p>
-          <p><a href="assets/downloads/Three Line Tables.docx" download>Open local copy</a></p>
-        </article>
-        
-        <article class="download-card" data-reveal data-delay="4">
-          <div class="metric-label">Download</div>
-          <div class="metric-value" style="font-size:20px; margin-top:10px;">Figure Legends.md</div>
-          <p>Unified figure legends</p>
-          <p><a href="assets/downloads/Figure Legends.md" download>Open local copy</a></p>
-        </article>
-        
-        <article class="download-card" data-reveal data-delay="5">
-          <div class="metric-label">Download</div>
-          <div class="metric-value" style="font-size:20px; margin-top:10px;">Table 3 Model Performance.csv</div>
-          <p>Temporal discrimination summary</p>
-          <p><a href="assets/downloads/Table 3 Model Performance.csv" download>Open local copy</a></p>
-        </article>
-        
-        <article class="download-card" data-reveal data-delay="1">
-          <div class="metric-label">Download</div>
-          <div class="metric-value" style="font-size:20px; margin-top:10px;">Table 4 Risk Groups.csv</div>
-          <p>Locked risk-group presentation</p>
-          <p><a href="assets/downloads/Table 4 Risk Groups.csv" download>Open local copy</a></p>
-        </article>
-        </div>
-    </section>
-    <section class="section card">
-      <h2>Web Delivery Notes</h2>
-      <div class="mini-grid">
-        <article class="mini-card" data-reveal data-delay="1">
-          <div class="mini-label">Calculator status</div>
-          <p class="mini-detail">The locked source package preserved a calculator preview screenshot but did not release a public URL or deployable locked runtime. This bundle therefore stays factual: it ships a local review experience and does not claim public availability.</p>
-        </article>
-        <article class="mini-card" data-reveal data-delay="2">
-          <div class="mini-label">Submission alignment</div>
-          <p class="mini-detail">Figure repairs, figure legends, manuscript wording, and web notes are synchronized to the same locked truth evidence chain and can be rebuilt from the project script.</p>
+          <div class="metric-value">Figure legends</div>
+          <p><a href="/assets/downloads/Figure Legends.md" download>Open local copy</a></p>
         </article>
       </div>
     </section>
-    <footer class="site-footer card">Open the local bundle directly from disk. No server is required for this manuscript-facing review package.</footer>
   </main>
-  <script src="assets/site.js"></script>
+  <script src="/assets/site.js"></script>
 </body>
 </html>

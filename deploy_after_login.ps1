@@ -15,13 +15,13 @@ try {
 
     git add .
     if (-not (git diff --cached --quiet)) {
-        git commit -m "Prepare Render static site bundle"
+        git commit -m "Prepare Render risk calculator service"
     }
 
     gh repo create $repoName --public --source . --remote origin --push
     Write-Host ""
     Write-Host "GitHub repo created and pushed."
-    Write-Host "Next: open Render and create a Blueprint or Static Site from this repo."
+    Write-Host "Next: open Render and create or update the Web Service from this repo."
 }
 finally {
     Pop-Location

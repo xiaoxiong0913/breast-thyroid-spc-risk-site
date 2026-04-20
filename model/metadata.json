@@ -1,0 +1,165 @@
+{
+  "model_name": "Post-calibrated CatBoost",
+  "endpoint": "Metachronous second primary thyroid cancer from month 7 through month 66 after index breast cancer diagnosis",
+  "features": [
+    "age",
+    "combined_summary_stage",
+    "ajcc_stage_group",
+    "race_ethnicity",
+    "laterality",
+    "chemotherapy_recode",
+    "marital_status",
+    "surgery_primary_site",
+    "her2_status",
+    "grade",
+    "regional_nodes_examined",
+    "radiation_recode"
+  ],
+  "categorical_options": {
+    "combined_summary_stage": [
+      "Distant site(s)/node(s) involved",
+      "Localized only",
+      "Regional by both direct extension and lymph node involvement",
+      "Regional by direct extension only",
+      "Regional lymph nodes involved only",
+      "Unknown/unstaged/unspecified/DCO"
+    ],
+    "ajcc_stage_group": [
+      "0",
+      "I",
+      "IA",
+      "IE",
+      "IEA",
+      "IEB",
+      "IIA",
+      "IIB",
+      "IIE",
+      "IIEA",
+      "IIIA",
+      "IIIB",
+      "IIIC",
+      "IIIE",
+      "IIIEA",
+      "IIINOS",
+      "IIISA",
+      "IIISB",
+      "IV",
+      "IVA",
+      "IVB",
+      "UNK Stage",
+      "IIEB",
+      "IIIESA",
+      "II",
+      "III",
+      "Blank(s)"
+    ],
+    "race_ethnicity": [
+      "Hispanic (All Races)",
+      "Non-Hispanic American Indian/Alaska Native",
+      "Non-Hispanic Asian or Pacific Islander",
+      "Non-Hispanic Black",
+      "Non-Hispanic Unknown Race",
+      "Non-Hispanic White"
+    ],
+    "laterality": [
+      "Bilateral, single primary",
+      "Left - origin of primary",
+      "Only one side - side unspecified",
+      "Paired site, but no information concerning laterality",
+      "Right - origin of primary"
+    ],
+    "chemotherapy_recode": [
+      "No/Unknown",
+      "Yes"
+    ],
+    "marital_status": [
+      "Divorced",
+      "Married (including common law)",
+      "Separated",
+      "Single (never married)",
+      "Unknown",
+      "Unmarried or Domestic Partner",
+      "Widowed"
+    ],
+    "her2_status": [
+      "Borderline/Unknown",
+      "Negative",
+      "Positive",
+      "Recode not available"
+    ],
+    "grade": [
+      "B-cell; pre-B; B-precursor",
+      "Moderately differentiated; Grade II",
+      "Poorly differentiated; Grade III",
+      "T-cell",
+      "Undifferentiated; anaplastic; Grade IV",
+      "Unknown",
+      "Well differentiated; Grade I"
+    ],
+    "radiation_recode": [
+      "Beam radiation",
+      "Combination of beam with implants or isotopes",
+      "None/Unknown",
+      "Radiation, NOS  method or source not specified",
+      "Radioactive implants (includes brachytherapy) (1988+)",
+      "Radioisotopes (1988+)",
+      "Recommended, unknown if administered",
+      "Refused (1988+)"
+    ]
+  },
+  "numeric_ranges": {
+    "age": {
+      "min": 18.0,
+      "max": 90.0,
+      "median": 60.0,
+      "p01": 31.0,
+      "p99": 87.0,
+      "default": 59.0
+    },
+    "surgery_primary_site": {
+      "min": 0.0,
+      "max": 99.0,
+      "median": 23.0,
+      "p01": 0.0,
+      "p99": 75.0,
+      "default": 23.0
+    },
+    "regional_nodes_examined": {
+      "min": 0.0,
+      "max": 99.0,
+      "median": 3.0,
+      "p01": 0.0,
+      "p99": 98.0,
+      "default": 3.0
+    }
+  },
+  "labels": {
+    "age": "Age at breast cancer diagnosis, years",
+    "combined_summary_stage": "Combined summary stage",
+    "ajcc_stage_group": "AJCC stage group",
+    "race_ethnicity": "Race or ethnicity",
+    "laterality": "Breast primary laterality",
+    "chemotherapy_recode": "Chemotherapy",
+    "marital_status": "Marital status",
+    "surgery_primary_site": "Primary-site surgery code",
+    "her2_status": "HER2 status",
+    "grade": "Tumor grade",
+    "regional_nodes_examined": "Regional lymph nodes examined",
+    "radiation_recode": "Radiotherapy"
+  },
+  "notes": {
+    "surgery_primary_site": "SEER surgery code used by the locked model. Common breast surgery codes include 22-24 for breast-conserving surgery and 40-80 for mastectomy-related categories; use the original SEER value when available.",
+    "regional_nodes_examined": "Enter the number recorded in SEER. Use 0 if no nodes were examined."
+  },
+  "thresholds": {
+    "low_upper": 0.0022,
+    "high_lower": 0.0028,
+    "primary_youden": 0.0028
+  },
+  "risk_group_definitions": {
+    "low": "Predicted 5-year risk <0.22%",
+    "intermediate": "Predicted 5-year risk 0.22% to <0.28%",
+    "high": "Predicted 5-year risk >=0.28%"
+  },
+  "runtime_note": "The web service applies the saved preprocessor, CatBoost raw margin, and Platt calibrator from the local runtime bundle."
+}

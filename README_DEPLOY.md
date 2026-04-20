@@ -1,30 +1,23 @@
 # Render Deployment Notes
 
-This directory is the public deployment candidate for the breast-to-thyroid SPC manuscript web showcase.
+This repository now deploys a Python web service for the breast-to-thyroid SPC risk calculator.
 
 Deployment target:
 
-- Render Static Site
-- Suggested repo name: `breast-thyroid-spc-risk-site`
-- Suggested Render service name: `breast-thyroid-spc-risk-site`
+- Render Web Service
+- Service name: `breast-thyroid-spc-risk-site`
+- Public URL: `https://breast-thyroid-spc-risk-site.onrender.com`
 
-Contents:
+Runtime contents:
 
-- `index.html` and `assets/`: static site payload
-- `render.yaml`: Render Blueprint for a static site
+- `app/main.py`: FastAPI application with `/api/schema`, `/api/predict`, and `/health`.
+- `model/catboost_postcalibrated_bundle.joblib`: saved preprocessor, CatBoost model, and Platt calibrator.
+- `model/metadata.json`: calculator feature schema, labels, observed ranges, and locked risk-group thresholds.
+- `index.html` and `assets/`: browser interface and manuscript material links.
 
-Known scope:
+Prediction path:
 
-- This is a manuscript-facing static review site.
-- It does not expose a prediction API.
-- The locked truth package did not provide a public locked runtime bundle, so the deployment must remain described as a public manuscript web showcase rather than a live bedside calculator.
-
-Next steps after authentication:
-
-1. Log into GitHub on this machine: `gh auth login`
-2. Create a repo from this folder and push it.
-3. In Render, create a new Blueprint or Static Site from that repo.
-4. After Render assigns a public URL, update:
-   - `E:\Codex\projects\breast_thyroid_spc_rebuild_20260403_0914\投稿核心文件\投稿文件\Supplementary\Web Calculator\deployment_record.json`
-   - `E:\Codex\projects\breast_thyroid_spc_rebuild_20260403_0914\投稿核心文件\投稿文件\Supplementary\Web Calculator\PUBLIC_WEB_LINK.md`
-   - the workspace copies under `output/web/`
+1. The API receives the 12 retained clinicopathologic fields.
+2. The saved preprocessor applies imputation, scaling, and one-hot encoding.
+3. CatBoost raw margin is passed to the saved Platt calibrator.
+4. The API returns calibrated 5-year risk, risk per 1000 women, and locked risk group.
